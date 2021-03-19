@@ -1,4 +1,5 @@
 import javax.management.openmbean.OpenMBeanAttributeInfo;
+import java.util.List;
 
 public class Customer {
 
@@ -19,7 +20,17 @@ public class Customer {
      */
 
     public boolean searchAndBookVehicle(int maxDistance, OperatingEnvironment operatingEnvironment){
-        return false;
+
+        List<Vehicle> resultList = vehicleManagement.findMatchingVehicles(maxDistance, operatingEnvironment);
+
+        if(resultList == null || resultList.isEmpty()) {
+            return false;
+        }
+        else {
+            vehicleManagement.bookVehicle(resultList.get(0), this);
+            return true;
+        }
+
     }
 
     public int getId() {

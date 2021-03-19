@@ -8,6 +8,7 @@ public abstract class VehicleBase implements Vehicle {
         this.maxDistance = maxDistance;
         this.name = name;
         this.operatingEnvironment = operatingEnvironment;
+        this.available = true;
     }
 
 
@@ -18,7 +19,7 @@ public abstract class VehicleBase implements Vehicle {
         @time   - 17:47
      */
     public boolean canOperateOn(OperatingEnvironment operatingEnvironment){
-        return false;
+        return this.operatingEnvironment.equals(operatingEnvironment);
     }
 
     /*
@@ -29,6 +30,7 @@ public abstract class VehicleBase implements Vehicle {
      */
 
     public void book(){
+        this.available = false;
     }
 
     public int getMaxDistance() {
