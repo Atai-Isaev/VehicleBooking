@@ -45,31 +45,32 @@ public class VehicleManagement {
         List<Vehicle> resultList = new ArrayList<>();
 
         if (vehicleList.isEmpty()) {
-            System.out.println("VehicleManagement have 0 vehicles");
+            System.out.println("VehicleManagement have 0 vehicles\n");
             return null;
-        }
-        else {
+        } else {
             for (int i = 0; i < vehicleList.size(); i++) {
                 Vehicle currentVehicle = vehicleList.get(i);
 
                 if (currentVehicle.isAvailable()) {
                     if (currentVehicle.canOperateOn(operatingEnvironment)
-                            && currentVehicle.getMaxDistance() >= maxDistance) resultList.add(currentVehicle);
+                            && currentVehicle.getMaxDistance() == maxDistance) resultList.add(currentVehicle);
                 }
             }
 
-            if (resultList.isEmpty()){
-                System.out.println("0 Vehicle was found");
+            if (resultList.isEmpty()) {
+                System.out.println("Based on your search 'maxDistance': "
+                        + maxDistance + " and 'operatingEnvironment':" + operatingEnvironment.name() + " 0 Vehicle(s) were found\n");
                 return null;
-            }
-            else {
-                System.out.println("There is "+resultList.size()+" vehicle(s) for you!");
+            } else {
+                System.out.println("Based on your search 'maxDistance': "
+                        + maxDistance + " and 'operatingEnvironment':" + operatingEnvironment.name() + " " + resultList.size() + " Vehicle(s) were found\n");
                 for (int i = 0; i < resultList.size(); i++) {
 
                     Vehicle vehicle = resultList.get(i);
-                    System.out.println("Vehicle: "+ vehicle.getName()+", max distance: "+vehicle.getMaxDistance()
-                            +", operating environment: "+vehicle.getOperatingEnvironment());
+                    System.out.println("    Vehicle: " + vehicle.getName() + ", max distance: " + vehicle.getMaxDistance()
+                            + ", operating environment: " + vehicle.getOperatingEnvironment());
                 }
+                System.out.println();
                 return resultList;
             }
 
@@ -90,32 +91,36 @@ public class VehicleManagement {
 
     public boolean bookVehicle(Vehicle vehicle, Customer customer) {
 
-        if (vehicle == null || customer == null || vehicle.isAvailable()) return false;
+        if (vehicle == null || customer == null || !vehicle.isAvailable()) return false;
 
-        if(bookedVehicles.containsKey(customer.getId())){
+        if (bookedVehicles.containsKey(customer.getId())) {
 
             List<Vehicle> customersBookedVehicles = bookedVehicles.get(customer.getId());
 
-            if(customersBookedVehicles.isEmpty()){
+            if (customersBookedVehicles.isEmpty()) {
                 vehicle.book();
                 List<Vehicle> newList = new ArrayList<>();
                 newList.add(vehicle);
                 bookedVehicles.put(customer.getId(), newList);
+                System.out.println("        You have booked a car: " + vehicle.getName()
+                        + ", maxDistance = " + vehicle.getMaxDistance() + ", operatingEnvironment = " + vehicle.getOperatingEnvironment() + "\n");
                 return true;
-            }
-            else {
+            } else {
                 vehicle.book();
                 customersBookedVehicles.add(vehicle);
                 bookedVehicles.put(customer.getId(), customersBookedVehicles);
+                System.out.println("        You have booked a car: " + vehicle.getName()
+                        + ", maxDistance = " + vehicle.getMaxDistance() + ", operatingEnvironment = " + vehicle.getOperatingEnvironment() + "\n");
                 return true;
             }
 
-        }
-        else {
+        } else {
             vehicle.book();
             List<Vehicle> newList = new ArrayList<>();
             newList.add(vehicle);
             bookedVehicles.put(customer.getId(), newList);
+            System.out.println("        You have booked a car: " + vehicle.getName()
+                    + ", maxDistance = " + vehicle.getMaxDistance() + ", operatingEnvironment = " + vehicle.getOperatingEnvironment() + "\n");
             return true;
         }
 
@@ -129,9 +134,15 @@ public class VehicleManagement {
      */
 
     public void showBookedVehicles() {
-        if (bookedVehicles.isEmpty()) System.out.println("There is no booked vehicles yet!");
-        else bookedVehicles.forEach((customerId, vehicleList) ->
-                vehicleList.forEach(vehicle ->
-                        System.out.println("Customer id: " + customerId + ", Vehicle: " + vehicle.getName() + ", operating environment: " + vehicle.getOperatingEnvironment() + ", max distance: " + vehicle.getMaxDistance())));
+        if (bookedVehicles.isEmpty()) System.out.println("There are no booked vehicles\n");
+        else {
+            System.out.println("A list of all booked vehicles");
+            bookedVehicles.forEach((customerId, vehicleList) ->
+                    vehicleList.forEach(vehicle ->
+                            System.out.println("    Customer id: "
+                                    + customerId + ", Vehicle: " + vehicle.getName() + ", operating environment: "
+                                    + vehicle.getOperatingEnvironment() + ", max distance: " + vehicle.getMaxDistance())));
+            System.out.println();
+        }
     }
 }
