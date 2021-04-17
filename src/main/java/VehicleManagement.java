@@ -19,7 +19,6 @@ public class VehicleManagement {
     }
 
     /*
-        TODO    - CM addVehicle
         @author - Atai
         @date   - 18.03.2021
         @time   - 18:05
@@ -33,7 +32,6 @@ public class VehicleManagement {
     }
 
     /*
-        TODO    - CM findMatchingVehicles
         @author - Atai
         @date   - 18.03.2021
         @time   - 18:06
@@ -48,13 +46,10 @@ public class VehicleManagement {
             System.out.println("VehicleManagement have 0 vehicles\n");
             return null;
         } else {
-            for (int i = 0; i < vehicleList.size(); i++) {
-                Vehicle currentVehicle = vehicleList.get(i);
+            for (Vehicle currentVehicle : vehicleList) {
+                if (currentVehicle.isAvailable() && currentVehicle.canOperateOn(operatingEnvironment)
+                        && currentVehicle.getMaxDistance() == maxDistance) resultList.add(currentVehicle);
 
-                if (currentVehicle.isAvailable()) {
-                    if (currentVehicle.canOperateOn(operatingEnvironment)
-                            && currentVehicle.getMaxDistance() == maxDistance) resultList.add(currentVehicle);
-                }
             }
 
             if (resultList.isEmpty()) {
@@ -64,9 +59,8 @@ public class VehicleManagement {
             } else {
                 System.out.println("Based on your search 'maxDistance': "
                         + maxDistance + " and 'operatingEnvironment':" + operatingEnvironment.name() + " " + resultList.size() + " Vehicle(s) were found\n");
-                for (int i = 0; i < resultList.size(); i++) {
+                for (Vehicle vehicle : resultList) {
 
-                    Vehicle vehicle = resultList.get(i);
                     System.out.println("    Vehicle: " + vehicle.getName() + ", max distance: " + vehicle.getMaxDistance()
                             + ", operating environment: " + vehicle.getOperatingEnvironment());
                 }
@@ -79,7 +73,6 @@ public class VehicleManagement {
     }
 
     /*
-        TODO    - CM bookVehicle
         Book a specific vehicle
         it is important
         if(bookedVehicles.List<Vehicle>.size!=0 or bookedVehicles.List<Vehicle>.size>0)
@@ -91,24 +84,27 @@ public class VehicleManagement {
 
     public boolean bookVehicle(Vehicle vehicle, Customer customer) {
 
+
         if (vehicle == null || customer == null || !vehicle.isAvailable()) return false;
 
-        if (bookedVehicles.containsKey(customer.getId())) {
+        int id = customer.getId();
 
-            List<Vehicle> customersBookedVehicles = bookedVehicles.get(customer.getId());
+        if (bookedVehicles.containsKey(id)) {
+
+            List<Vehicle> customersBookedVehicles = bookedVehicles.get(id);
 
             if (customersBookedVehicles.isEmpty()) {
                 vehicle.book();
                 List<Vehicle> newList = new ArrayList<>();
                 newList.add(vehicle);
-                bookedVehicles.put(customer.getId(), newList);
+                bookedVehicles.put(id, newList);
                 System.out.println("        You have booked a car: " + vehicle.getName()
                         + ", maxDistance = " + vehicle.getMaxDistance() + ", operatingEnvironment = " + vehicle.getOperatingEnvironment() + "\n");
                 return true;
             } else {
                 vehicle.book();
                 customersBookedVehicles.add(vehicle);
-                bookedVehicles.put(customer.getId(), customersBookedVehicles);
+                bookedVehicles.put(id, customersBookedVehicles);
                 System.out.println("        You have booked a car: " + vehicle.getName()
                         + ", maxDistance = " + vehicle.getMaxDistance() + ", operatingEnvironment = " + vehicle.getOperatingEnvironment() + "\n");
                 return true;
@@ -118,7 +114,7 @@ public class VehicleManagement {
             vehicle.book();
             List<Vehicle> newList = new ArrayList<>();
             newList.add(vehicle);
-            bookedVehicles.put(customer.getId(), newList);
+            bookedVehicles.put(id, newList);
             System.out.println("        You have booked a car: " + vehicle.getName()
                     + ", maxDistance = " + vehicle.getMaxDistance() + ", operatingEnvironment = " + vehicle.getOperatingEnvironment() + "\n");
             return true;
@@ -127,7 +123,6 @@ public class VehicleManagement {
     }
 
     /*
-        TODO    - CM showBookedVehicles
         @author - Atai
         @date   - 18.03.2021
         @time   - 18:08

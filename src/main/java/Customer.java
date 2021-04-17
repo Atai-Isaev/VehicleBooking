@@ -13,7 +13,6 @@ public class Customer {
     }
 
     /*
-        TODO    - CM
         @author - Atai
         @date   - 18.03.2021
         @time   - 18:10

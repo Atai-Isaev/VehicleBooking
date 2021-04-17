@@ -5,6 +5,7 @@ public abstract class VehicleBase implements Vehicle {
     private OperatingEnvironment operatingEnvironment;
 
     public VehicleBase(int maxDistance, String name, OperatingEnvironment operatingEnvironment) {
+        super();
         this.maxDistance = maxDistance;
         this.name = name;
         this.operatingEnvironment = operatingEnvironment;
@@ -13,7 +14,6 @@ public abstract class VehicleBase implements Vehicle {
 
 
     /*
-         TODO    - CM canOperateOn
         @author - Atai
         @date   - 18.03.2021
         @time   - 17:47
@@ -23,7 +23,6 @@ public abstract class VehicleBase implements Vehicle {
     }
 
     /*
-        TODO    - CM book
         @author - Atai
         @date   - 18.03.2021
         @time   - 17:50
